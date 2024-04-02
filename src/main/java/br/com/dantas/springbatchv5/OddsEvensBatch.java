@@ -30,10 +30,16 @@ public class OddsEvensBatch {
                 .build();
     }
 
+    /**
+     * <b>Chuck Based Step:</b>
+     * <p></p>
+     *  The COMMIT INTERVAL equals CHUCK SIZE is a sensible definition, a large size equals a fewer transactions
+     *  but consumes more memory and has more chances to lost data if something goes wrong on data processing steps.
+     * */
     @Bean
     public Step step(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("printOddsEvensStep", jobRepository)
-                .<Integer,String>chunk(10, transactionManager) // COMMIT INTERVAL = CHUCK_SIZE
+                .<Integer,String>chunk(10, transactionManager)
                 .reader(countUntilTenItemReader())
                 .processor(oddEvenItemProcessor())
                 .writer(printResultItemWritter())
