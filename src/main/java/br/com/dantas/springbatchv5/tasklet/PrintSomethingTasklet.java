@@ -10,12 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PrintSomethingTasklet implements Tasklet {
 
-//    @Value("#{jobParameters['parameterToMyBatch']}")
-//    String parameterToBatchTasklet;
-
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-//        System.out.println(String.format("Spring batch job -> %s", ));
         System.out.println("HELLO FROM BATCH JOB");
         return RepeatStatus.FINISHED;
     }
