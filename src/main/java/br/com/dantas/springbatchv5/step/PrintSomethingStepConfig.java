@@ -12,8 +12,16 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 public class PrintSomethingStepConfig {
 
+    private final JobRepository jobRepository;
+    private final PlatformTransactionManager transactionManager;
+
+    public PrintSomethingStepConfig(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+        this.jobRepository = jobRepository;
+        this.transactionManager = transactionManager;
+    }
+
     @Bean
-    public Step step(JobRepository jobRepository, PlatformTransactionManager transactionManager, Tasklet printSomethingTasklet) {
+    public Step step(Tasklet printSomethingTasklet) {
         return new StepBuilder("myStep", jobRepository)
                 .tasklet(printSomethingTasklet, transactionManager)
                 .build();

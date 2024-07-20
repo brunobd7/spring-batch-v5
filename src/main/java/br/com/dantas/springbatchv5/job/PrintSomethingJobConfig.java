@@ -14,8 +14,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PrintSomethingJobConfig {
 
+    private final JobRepository jobRepository;
+
+    public PrintSomethingJobConfig(JobRepository jobRepository) {
+        this.jobRepository = jobRepository;
+    }
+
     @Bean
-    public Job job(JobRepository jobRepository, Step myStep) {
+    public Job job(Step myStep) {
         return new JobBuilder("myJob", jobRepository)
                 .start(myStep)
                 .incrementer(new RunIdIncrementer()) // INCREMENTED TO ALLOWS BATCH RUNS MANY TIMES AND COULD INDENTIFY ON DATABASE
