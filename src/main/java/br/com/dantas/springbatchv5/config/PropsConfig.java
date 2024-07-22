@@ -8,7 +8,8 @@ import org.springframework.core.io.FileSystemResource;
 @Configuration
 public class PropsConfig {
 
-    @Bean
+    //TODO REMOVE COMMENT BELLOW TO USE EXTERNAL FILE CONFIGURANTION APPROACH
+//    @Bean
     public PropertySourcesPlaceholderConfigurer sourceConfigurer(){
         PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
         configurer.setLocation(new FileSystemResource("C:\\Users\\Bruno\\Documents\\Spring Batch - Giuliana Bezerra\\firstJobExternalProperties.properties"));
