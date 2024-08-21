@@ -9,17 +9,22 @@ import org.springframework.batch.item.file.transform.Range;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.PathResource;
 import org.springframework.core.io.Resource;
+
+import java.io.IOException;
 
 @Configuration
 public class FixedSizeFileReaderConfig {
 
+
+    // TODO COME BACK AND SOLVE , PATH DID NOT SOLVED BY ENV VARIABLE AND ANNOTATION @Value("#{jobParameters['arquivoClientes']}") String customersFile
     @StepScope
     @Bean
-    public FlatFileItemReader<Cliente> fixedSizeFileReader(@Value("#{jobParameters['arquivoClientes']}") Resource customersFile) {
+    public FlatFileItemReader<Cliente> fixedSizeFileReader() throws IOException {
         return new FlatFileItemReaderBuilder<Cliente>()
                 .name("fixedSizeFileReader")
-                .resource(customersFile)
+                .resource(new PathResource("files/clientes.txt"))
                 .fixedLength()
                 .columns(new Range[]{
                         new Range(1, 10), new Range(11, 20), new Range(21, 23), new Range(24, 43)
