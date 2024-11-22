@@ -5,10 +5,10 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
-public class FixedSizeFileReaderWriterConfig {
+@Configuration
+public class DelimitedFileReaderWriterConfig {
 
-//    @Bean
+    @Bean
     public ItemWriter<Cliente> fixedSizeFileWriter() {
         return items -> items.forEach(System.out::println);
     }
