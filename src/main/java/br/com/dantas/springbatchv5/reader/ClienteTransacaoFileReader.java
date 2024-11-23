@@ -3,15 +3,18 @@ package br.com.dantas.springbatchv5.reader;
 import br.com.dantas.springbatchv5.domain.Cliente;
 import br.com.dantas.springbatchv5.domain.Transacao;
 import org.springframework.batch.item.*;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.ResourceAwareItemReaderItemStream;
+import org.springframework.core.io.Resource;
 
-public class ClienteTransacaoFileReader implements ItemStreamReader<Cliente> {
+public class ClienteTransacaoFileReader implements ItemStreamReader<Cliente>, ResourceAwareItemReaderItemStream<Cliente> {
 
     public Object currentObject;
 
     // Using Delegate pattern to passa read resposibility to existing file reader;
-    public ItemStreamReader<Object> delegateReader;
+    public FlatFileItemReader<Object> delegateReader;
 
-    public ClienteTransacaoFileReader(ItemStreamReader<Object> delegateReader) {
+    public ClienteTransacaoFileReader(FlatFileItemReader<Object> delegateReader) {
         this.delegateReader = delegateReader;
     }
 
@@ -55,5 +58,10 @@ public class ClienteTransacaoFileReader implements ItemStreamReader<Cliente> {
     @Override
     public void close() throws ItemStreamException {
         delegateReader.close();
+    }
+
+    @Override
+    public void setResource(Resource resource) {
+        delegateReader.setResource(resource);
     }
 }
