@@ -8,12 +8,19 @@ public class ClienteTransacaoFileReader implements ItemStreamReader<Cliente> {
 
     public Object currentObject;
 
+    // Using Delegate pattern to passa read resposibility to existing file reader;
+    public ItemStreamReader<Object> delegateReader;
+
+    public ClienteTransacaoFileReader(ItemStreamReader<Object> delegateReader) {
+        this.delegateReader = delegateReader;
+    }
+
     @Override
     public Cliente read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
 
         // Read data case object is null
         if(currentObject == null) {
-            currentObject =  // todo read from source
+            currentObject = delegateReader.read();
         }
 
         // Casting to Cliente.class and 'clean' for next data read
@@ -31,23 +38,22 @@ public class ClienteTransacaoFileReader implements ItemStreamReader<Cliente> {
     }
 
     private Object peekNextItem() throws Exception {
-        currentObject = // read next item on verification purpose
+        currentObject = delegateReader.read(); // read next item on verification purpose
         return currentObject;
     }
 
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        ItemStreamReader.super.open(executionContext);
+        delegateReader.open(executionContext);
     }
 
     @Override
     public void update(ExecutionContext executionContext) throws ItemStreamException {
-        ItemStreamReader.super.update(executionContext);
+        delegateReader.update(executionContext);
     }
 
     @Override
     public void close() throws ItemStreamException {
-
-        ItemStreamReader.super.close();
+        delegateReader.close();
     }
 }

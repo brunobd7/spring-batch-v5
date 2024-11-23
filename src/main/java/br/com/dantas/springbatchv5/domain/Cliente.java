@@ -1,5 +1,6 @@
 package br.com.dantas.springbatchv5.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente {
@@ -9,7 +10,7 @@ public class Cliente {
 	private String idade;
 	private String email;
 
-	private List<Transacao> transacoes;
+	private List<Transacao> transacoes = new ArrayList<>();
 
 	public String getNome() {
 		return nome;
