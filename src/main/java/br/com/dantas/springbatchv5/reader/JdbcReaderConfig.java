@@ -12,8 +12,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 @Configuration
 public class JdbcReaderConfig {
@@ -27,6 +29,28 @@ public class JdbcReaderConfig {
                 .dataSource(appDataSource)
                 .sql("select * from customers")
                 .rowMapper(new BeanPropertyRowMapper<>(Customer.class))
+                .build();
+
+    }
+
+    @Bean
+    public JdbcCursorItemReader<Customer> jdbcCursorItemReaderWithSkipExceptionHandle(@Qualifier(value="appDataSource") DataSource appDataSource) {
+        return new JdbcCursorItemReaderBuilder<Customer>()
+                .name("jdbcCursorItemReaderWithSkipExceptionHandle")
+                .dataSource(appDataSource)
+                .sql("select * from customers")
+                .rowMapper((rs, rowNum) -> {
+
+                    if(rs.getRow() == 10 || rs.getRow() == 11)  // INDUCING EXCEPTION TO TEST SKIP LIMIT SCENARIOS
+                        throw new SQLException(String.format("Execution finished - Invalid customer %s", rs.getString("email") ));
+
+                    Customer customer = new Customer();
+                    customer.setNome(rs.getString("nome"));
+                    customer.setSobrenome(rs.getString("sobrenome"));
+                    customer.setIdade(rs.getString("idade"));
+                    customer.setEmail(rs.getString("email"));
+                    return customer;
+                })
                 .build();
 
     }

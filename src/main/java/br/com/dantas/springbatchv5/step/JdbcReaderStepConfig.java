@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.sql.SQLException;
+
 @Configuration
 public class JdbcReaderStepConfig {
 
@@ -31,6 +33,18 @@ public class JdbcReaderStepConfig {
                 .<Customer,Customer>chunk(1,platformTransactionManager)
                 .reader(itemReader)
                 .writer(itemWriter)
+                .build();
+    }
+
+    @Bean
+    public Step jdbcCursorSkipExceptionHandlerStep(@Qualifier("jdbcCursorItemReaderWithSkipExceptionHandle") JdbcCursorItemReader<Customer> itemReader, ItemWriter<Customer> itemWriter) {
+        return new StepBuilder("jdbcCursorItemReaderWithSkipExceptionHandle", jobRepository)
+                .<Customer,Customer>chunk(23,platformTransactionManager)
+                .reader(itemReader)
+                .writer(itemWriter)
+                .faultTolerant()
+                .skip(Exception.class) // SET WHICH KIND EXCEPTION COULD BE SKIPPED
+                .skipLimit(2) // MAX ROWS THAT WILL SKIP WHEN EXCEPTION THROWING
                 .build();
     }
 

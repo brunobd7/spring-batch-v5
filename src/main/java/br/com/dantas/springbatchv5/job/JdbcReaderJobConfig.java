@@ -22,7 +22,7 @@ public class JdbcReaderJobConfig {
     }
 
     @Bean
-    public Job jdbcReadingJob(@Qualifier(value = "jdbcPagingReaderStep") Step jdbcReaderStep){
+    public Job jdbcReadingJob(@Qualifier(value = "jdbcCursorSkipExceptionHandlerStep") Step jdbcReaderStep){
         return new JobBuilder("readJdbcDataSourceJob", jobRepository)
                 .start(jdbcReaderStep)
                 .incrementer(new RunIdIncrementer())
