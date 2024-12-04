@@ -24,7 +24,7 @@ public class BudgetaryReportStepConfig {
     @Bean
     public Step budgetaryReportStep(MultiResourceItemReader<FinancialTransaction> itemReader, ItemWriter<FinancialTransaction> itemWriter) {
         return new StepBuilder("budgetaryReportStep", jobRepository )
-                .<FinancialTransaction, FinancialTransaction>chunk(1,platformTransactionManager)
+                .<FinancialTransaction, FinancialTransaction>chunk(20,platformTransactionManager)
                 .reader(itemReader)
                 .writer(itemWriter)
                 .build();
