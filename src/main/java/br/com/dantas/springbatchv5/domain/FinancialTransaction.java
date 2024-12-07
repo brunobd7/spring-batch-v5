@@ -1,5 +1,9 @@
 package br.com.dantas.springbatchv5.domain;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 /*
 * Os arquivos a serem lidos possuem o seguinte formato:
 *
@@ -7,13 +11,11 @@ package br.com.dantas.springbatchv5.domain;
 *  descrição do item, data, valor**
 * */
 public class FinancialTransaction {
-
     private String transactionTypeId;
     private String transactionDescription;
-    private String transactionItem;
-    private String transactionDate;
-    private String transactionAmount;
+    private List<FinancialItem> financialItems = new ArrayList<>();
 
+    private FinancialItem tmpItem;
 
     public String getTransactionTypeId() {
         return transactionTypeId;
@@ -31,38 +33,35 @@ public class FinancialTransaction {
         this.transactionDescription = transactionDescription;
     }
 
-    public String getTransactionItem() {
-        return transactionItem;
+    public List<FinancialItem> getFinancialItems() {
+        return financialItems;
     }
 
-    public void setTransactionItem(String transactionItem) {
-        this.transactionItem = transactionItem;
+    public void setFinancialItems(List<FinancialItem> financialItems) {
+        this.financialItems = financialItems;
     }
 
-    public String getTransactionDate() {
-        return transactionDate;
+    public FinancialItem getTmpItem() {
+        return tmpItem;
     }
 
-    public void setTransactionDate(String transactionDate) {
-        this.transactionDate = transactionDate;
+    public void setTmpItem(FinancialItem tmpItem) {
+        this.tmpItem = tmpItem;
     }
 
-    public String getTransactionAmount() {
-        return transactionAmount;
-    }
-
-    public void setTransactionAmount(String transactionAmount) {
-        this.transactionAmount = transactionAmount;
+    public String getTotalItensAmount(){
+        return this.getFinancialItems().stream()
+                .map(financialItem -> new BigDecimal(financialItem.getTransactionAmount()))
+                .reduce(BigDecimal::add).get().toString();
     }
 
     @Override
     public String toString() {
-        return "FinancialTransactions{" +
+        return "FinancialTransaction{" +
                 "transactionTypeId='" + transactionTypeId + '\'' +
                 ", transactionDescription='" + transactionDescription + '\'' +
-                ", transactionItem='" + transactionItem + '\'' +
-                ", transactionDate='" + transactionDate + '\'' +
-                ", transactionAmount='" + transactionAmount + '\'' +
+                ", financialItems=" + financialItems +
+                ", tmpItem=" + tmpItem +
                 '}';
     }
 }

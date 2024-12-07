@@ -5,32 +5,24 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.stream.Collectors;
+import static java.lang.String.format;
 
 @Configuration
 public class BudgetaryItemWriterConfig {
 
     @Bean
     public ItemWriter<FinancialTransaction> financialTransactionItemWriter() {
-        StringBuilder stringBuilder = new StringBuilder();
-        return chunk -> chunk.getItems()
-                .stream()
-                .collect(Collectors.groupingBy(FinancialTransaction::getTransactionTypeId))
-                .forEach((key, value) -> {
+        return itens -> itens.forEach(finTransaction -> {
+            System.out.println("---- Demonstrativo orçamentário ----");
 
-                    FinancialTransaction financialTransactionType = value.get(0);
-                    stringBuilder.append("---- Demonstrativo orçamentário ----\n");
-                    stringBuilder.append("[").append(key).append("] ")
-                            .append(financialTransactionType.getTransactionDescription())
-                            .append(" - R$").append(financialTransactionType.getTransactionAmount()).append("\n");
+            System.out.println(format("[%s] %s - R$ %s", finTransaction.getTransactionTypeId(),
+                    finTransaction.getTransactionDescription(), finTransaction.getTotalItensAmount()));
 
-                    value.forEach(transactionItem -> {
-                        stringBuilder.append("  [").append(transactionItem.getTransactionDate()).append("] ")
-                                .append(transactionItem.getTransactionItem()).append(" - R$").append(transactionItem.getTransactionAmount())
-                                .append("\n");
-                    });
+            finTransaction.getFinancialItems().forEach(item -> {
+                System.out.println(format("[%s] %s - R$ %s", item.getTransactionDate(),
+                        item.getTransactionItem(), item.getTransactionAmount()));
+            });
 
-                    System.out.println(stringBuilder.toString());
-                });
+        });
     }
 }
