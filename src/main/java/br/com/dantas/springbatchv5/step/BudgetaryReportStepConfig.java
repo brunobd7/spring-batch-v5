@@ -5,7 +5,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.file.MultiResourceItemReader;
+import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -22,7 +22,7 @@ public class BudgetaryReportStepConfig {
     }
 
     @Bean
-    public Step budgetaryReportStep(MultiResourceItemReader<FinancialTransaction> itemReader, ItemWriter<FinancialTransaction> itemWriter) {
+    public Step budgetaryReportStep(JdbcCursorItemReader<FinancialTransaction> itemReader, ItemWriter<FinancialTransaction> itemWriter) {
         return new StepBuilder("budgetaryReportStep", jobRepository )
                 .<FinancialTransaction, FinancialTransaction>chunk(20,platformTransactionManager)
                 .reader(itemReader)
