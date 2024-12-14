@@ -2,23 +2,24 @@ package br.com.dantas.springbatchv5.reader;
 
 import br.com.dantas.springbatchv5.domain.FinancialTransaction;
 import org.springframework.batch.item.*;
-import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.file.ResourceAwareItemReaderItemStream;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class FinancialTransactionReader implements ResourceAwareItemReaderItemStream<FinancialTransaction> {
 
-    private final FlatFileItemReader<FinancialTransaction> delegateReader;
+    private final JdbcCursorItemReader<FinancialTransaction> delegateReader;
     private FinancialTransaction currentFinancialTransaction;
 
-    public FinancialTransactionReader(FlatFileItemReader<FinancialTransaction> delegateReader) {
+    public FinancialTransactionReader(JdbcCursorItemReader<FinancialTransaction> delegateReader) {
         this.delegateReader = delegateReader;
     }
 
     @Override
     public void setResource(Resource resource) {
-        delegateReader.setResource(resource);
+//        delegateReader.setResource(resource); // REMOVE COMMENT TO READ FROM FILE
     }
 
     @Override

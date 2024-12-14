@@ -7,12 +7,10 @@ import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuild
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 @Configuration
 public class JdbcReaderConfig {
@@ -23,7 +21,6 @@ public class JdbcReaderConfig {
                 .name("financialItemJdbcCursorItemReader")
                 .dataSource(dataSource)
                 .sql("select * from lancamento") // point to database mapped on datasource bean
-//                .beanRowMapper(FinancialTransaction.class)
                 .rowMapper((rs, rowNum) -> {
                     FinancialTransaction ft = new FinancialTransaction();
                     ft.setTransactionTypeId(rs.getObject(1, Integer.class).toString());
@@ -34,7 +31,7 @@ public class JdbcReaderConfig {
                     item.setTransactionDate(rs.getObject(4, LocalDate.class).toString());
                     item.setTransactionAmount(rs.getObject(5, BigDecimal.class).toString());
 
-                    ft.getFinancialItems().add(item);
+                    ft.setTmpItem(item);
 
                     return ft;
                 })
