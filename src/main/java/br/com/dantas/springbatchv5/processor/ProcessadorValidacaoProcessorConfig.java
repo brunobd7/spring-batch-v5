@@ -9,6 +9,7 @@ import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.batch.item.validator.Validator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,7 @@ public class ProcessadorValidacaoProcessorConfig {
 	private Set<String> emails = new HashSet<>();
 
 	@Bean
+	@Primary
 	ItemProcessor<Cliente, Cliente> procesadorValidacaoProcessor() throws Exception {
 		return new CompositeItemProcessorBuilder<Cliente, Cliente>()
 				.delegates(beanValidatingProcessor(), emailValidatingProcessor())
