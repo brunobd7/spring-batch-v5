@@ -1,6 +1,8 @@
 package br.com.dantas.springbatchv5.processor;
 
 import br.com.dantas.springbatchv5.dominio.Cliente;
+import br.com.dantas.springbatchv5.dominio.ContaBancaria;
+import br.com.dantas.springbatchv5.dominio.TipoConta;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.support.builder.CompositeItemProcessorBuilder;
 import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
@@ -11,18 +13,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Configuration
 public class ProcessadorValidacaoProcessorConfig {
-	private Set<String> emails = new HashSet<>();
 
 	@Bean
 	@Primary
 	ItemProcessor<Cliente, Cliente> procesadorValidacaoProcessor() throws Exception {
 		return new CompositeItemProcessorBuilder<Cliente, Cliente>()
-				.delegates(beanValidatingProcessor(), emailValidatingProcessor())
+				.delegates(
+						beanValidatingProcessor(),
+						tipoContaValidatingItemProcessor()
+				)
 				.build();
 	}
 
@@ -33,7 +34,7 @@ public class ProcessadorValidacaoProcessorConfig {
 		return processor;
 	}
 
-	private ValidatingItemProcessor<Cliente> emailValidatingProcessor() {
+	private ValidatingItemProcessor<Cliente> tipoContaValidatingItemProcessor() {
 		ValidatingItemProcessor<Cliente> processor = new ValidatingItemProcessor<>();
 		processor.setValidator(validator());
 		processor.setFilter(true);
@@ -45,9 +46,15 @@ public class ProcessadorValidacaoProcessorConfig {
 
 			@Override
 			public void validate(Cliente cliente) throws ValidationException {
-				if (emails.contains(cliente.getEmail()))
-					throw new ValidationException(String.format("O cliente %s já foi processado!", cliente.getEmail()));
-				emails.add(cliente.getEmail());
+
+				ContaBancaria conta = new ContaBancaria();
+
+				if(cliente.getFaixaSalarial() > 10000D) {
+					conta.setClienteId(cliente.getEmail());
+					conta.setLimite(5000D);
+					conta.setTipoConta(TipoConta.DIAMANTE);
+				}
+
 			}
 
 		};

@@ -12,18 +12,18 @@ import org.springframework.context.annotation.Configuration;
  * The annotation @EnableBatchProcessing is not required since Spring Boot 3
  */
 @Configuration
-public class ProcessorJobConfig {
+public class GenerateAccountsProcessorJobConfig {
 
     private final JobRepository jobRepository;
 
-    public ProcessorJobConfig(JobRepository jobRepository) {
+    public GenerateAccountsProcessorJobConfig(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
     }
 
     @Bean
-    public Job job(Step myStep) {
-        return new JobBuilder("myJobWithSomeProcessor", jobRepository)
-                .start(myStep)
+    public Job job(Step generateAccountsStep) {
+        return new JobBuilder("generateAccountsJob", jobRepository)
+                .start(generateAccountsStep)
                 .incrementer(new RunIdIncrementer()) // INCREMENTED TO ALLOWS BATCH RUNS MANY TIMES AND COULD INDENTIFY ON DATABASE
                 .build();
     }

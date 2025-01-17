@@ -17,6 +17,7 @@ public class Cliente {
 	@Size(min = 1, max = 50)
 	@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", message = "Email inválido")
 	private String email;
+	private Double faixaSalarial;
 
 	public String getNome() {
 		return nome;
@@ -32,6 +33,14 @@ public class Cliente {
 
 	public void setIdade(Integer idade) {
 		this.idade = idade;
+	}
+
+	public Double getFaixaSalarial() {
+		return faixaSalarial;
+	}
+
+	public void setFaixaSalarial(Double faixaSalarial) {
+		this.faixaSalarial = faixaSalarial;
 	}
 
 	public String getEmail() {

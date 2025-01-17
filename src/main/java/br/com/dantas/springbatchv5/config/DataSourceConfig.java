@@ -18,8 +18,8 @@ public class DataSourceConfig {
 	}
 
 	@Bean
-	@ConfigurationProperties(prefix = "app.datasource")
-	DataSource appDataSource() {
+	@ConfigurationProperties(prefix = "app-batch-db.datasource")
+	DataSource appBatchDataBase() {
 		return DataSourceBuilder.create().build();
 	}
 }
