@@ -18,6 +18,7 @@ public class ProcessadorContaBancariaReaderConfig {
 		return new JdbcCursorItemReaderBuilder<Cliente>()
 				.name("processadorContaBancariaReader")
 				.dataSource(dataSource)
+				.sql("select * from cliente")
 				.rowMapper((rs, rowNum) -> {
 					Cliente cliente = new Cliente();
 

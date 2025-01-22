@@ -18,6 +18,7 @@ public class Cliente {
 	@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", message = "Email inválido")
 	private String email;
 	private Double faixaSalarial;
+	private ContaBancaria contaBancaria;
 
 	public String getNome() {
 		return nome;
@@ -51,12 +52,22 @@ public class Cliente {
 		this.email = email;
 	}
 
+	public ContaBancaria getContaBancaria() {
+		return contaBancaria;
+	}
+
+	public void setContaBancaria(ContaBancaria contaBancaria) {
+		this.contaBancaria = contaBancaria;
+	}
+
 	@Override
 	public String toString() {
 		return "Cliente{" +
-				"nome='" + nome + "'" +
-				", idade='" + idade + "'" +
-				", email='" + email + "'" +
+				"nome='" + nome + '\'' +
+				", idade=" + idade +
+				", email='" + email + '\'' +
+				", faixaSalarial=" + faixaSalarial +
+				", contaBancaria=" + contaBancaria +
 				'}';
 	}
 }

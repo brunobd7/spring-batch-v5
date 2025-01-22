@@ -49,12 +49,28 @@ public class ProcessadorValidacaoProcessorConfig {
 
 				ContaBancaria conta = new ContaBancaria();
 
+				if(cliente.getFaixaSalarial() <= 3000D) {
+					conta.setClienteId(cliente.getEmail());
+					conta.setLimite(500D);
+					conta.setTipoConta(TipoConta.PRATA);
+				}
+				if(cliente.getFaixaSalarial() > 3000D && cliente.getFaixaSalarial() <= 5000D) {
+					conta.setClienteId(cliente.getEmail());
+					conta.setLimite(1000D);
+					conta.setTipoConta(TipoConta.OURO);
+				}
+				if(cliente.getFaixaSalarial() > 5000D && cliente.getFaixaSalarial() <= 10000D) {
+					conta.setClienteId(cliente.getEmail());
+					conta.setLimite(2500D);
+					conta.setTipoConta(TipoConta.PLATINA);
+				}
 				if(cliente.getFaixaSalarial() > 10000D) {
 					conta.setClienteId(cliente.getEmail());
 					conta.setLimite(5000D);
 					conta.setTipoConta(TipoConta.DIAMANTE);
 				}
 
+				cliente.setContaBancaria(conta);
 			}
 
 		};
