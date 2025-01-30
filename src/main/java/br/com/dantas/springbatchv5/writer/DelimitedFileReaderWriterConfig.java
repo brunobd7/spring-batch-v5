@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class DelimitedFileReaderWriterConfig {
 
     @Bean
-    public ItemWriter<Cliente> fixedSizeFileWriter() {
+    public ItemWriter<Cliente> delimitedFileReaderWriter() {
         return items -> items.forEach(System.out::println);
     }
 }

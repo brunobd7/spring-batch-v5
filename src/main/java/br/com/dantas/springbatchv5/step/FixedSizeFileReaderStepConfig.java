@@ -9,9 +9,10 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.PlatformTransactionManager;
 
-//@Configuration
+@Configuration
 public class FixedSizeFileReaderStepConfig {
 
     private final JobRepository jobRepository;
@@ -22,7 +23,8 @@ public class FixedSizeFileReaderStepConfig {
         this.transactionManager = transactionManager;
     }
 
-//    @Bean
+    @Bean
+    @Primary
     public Step step(ItemReader<Cliente> fixedSizeFileReader, ItemWriter<Cliente> fixedSizefileWriter) {
         return new StepBuilder("fixedSizeFileReaderStep", jobRepository)
                 .<Cliente,Cliente>chunk(1,transactionManager)
