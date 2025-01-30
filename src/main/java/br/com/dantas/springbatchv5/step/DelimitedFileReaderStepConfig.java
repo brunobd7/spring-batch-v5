@@ -23,7 +23,7 @@ public class DelimitedFileReaderStepConfig {
     }
 
     @Bean
-    @Primary
+//    @Primary
     public Step delimitedFileReaderStep(ItemReader<Cliente> delimitedItemReader, ItemWriter<Cliente> delimitedItemWriter) {
         return new StepBuilder("delimitedFileReaderStep", jobRepository)
                 .<Cliente,Cliente>chunk(1,transactionManager)

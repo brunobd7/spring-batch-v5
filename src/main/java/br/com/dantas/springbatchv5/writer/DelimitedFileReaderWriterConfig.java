@@ -1,20 +1,17 @@
 package br.com.dantas.springbatchv5.writer;
 
 import br.com.dantas.springbatchv5.domain.Cliente;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.PathResource;
 
 @Configuration
 public class DelimitedFileReaderWriterConfig {
 
     @Bean
-    @Primary
+//    @Primary
     public FlatFileItemWriter<Cliente> delimitedFileReaderWriter() {
         return new FlatFileItemWriterBuilder<Cliente>()
                 .name("delimitedFileReaderWriter")

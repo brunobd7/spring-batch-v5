@@ -15,7 +15,7 @@ public class DelimitedFileItemReaderConfig {
     // TODO COME BACK AND SOLVE , PATH DID NOT SOLVED BY ENV VARIABLE AND ANNOTATION @Value("#{jobParameters['arquivoClientes']}") String customersFile
     @StepScope
     @Bean
-    @Primary
+//    @Primary
     public FlatFileItemReader<Cliente> delimitedFileItemReader() {
         return new FlatFileItemReaderBuilder<Cliente>()
                 .name("delimitedFileItemReader")

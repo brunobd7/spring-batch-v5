@@ -31,10 +31,18 @@ public class FlatFileReaderJobConfig {
                 .build();
     }
 
-    @Bean
+//    @Bean
     public Job delimitedFileJob(Step delimitedFileReaderStep){
         return new JobBuilder("delimitedFileReaderJob", jobRepository)
                 .start(delimitedFileReaderStep)
+                .incrementer(new RunIdIncrementer())
+                .build();
+    }
+
+    @Bean
+    public Job multiFileReaderJob(Step multiFileReaderStep){
+        return new JobBuilder("multiFileReaderJob", jobRepository)
+                .start(multiFileReaderStep)
                 .incrementer(new RunIdIncrementer())
                 .build();
     }
