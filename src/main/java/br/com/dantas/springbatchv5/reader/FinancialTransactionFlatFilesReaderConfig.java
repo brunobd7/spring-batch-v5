@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
 @Configuration
-public class MultipleFilesReaderConfig {
+public class FinancialTransactionFlatFilesReaderConfig {
 
 
     @StepScope

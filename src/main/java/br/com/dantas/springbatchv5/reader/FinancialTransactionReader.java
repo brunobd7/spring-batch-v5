@@ -5,8 +5,9 @@ import org.springframework.batch.item.*;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.ResourceAwareItemReaderItemStream;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class FinancialTransactionReader implements ResourceAwareItemReaderItemStream<FinancialTransaction> {
 
     private final FlatFileItemReader<FinancialTransaction> delegateReader;
