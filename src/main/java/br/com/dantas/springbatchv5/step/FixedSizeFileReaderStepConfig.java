@@ -24,7 +24,7 @@ public class FixedSizeFileReaderStepConfig {
     }
 
     @Bean
-    @Primary
+//    @Primary
     public Step step(ItemReader<Cliente> fixedSizeFileReader, ItemWriter<Cliente> fixedSizefileWriter) {
         return new StepBuilder("fixedSizeFileReaderStep", jobRepository)
                 .<Cliente,Cliente>chunk(1,transactionManager)

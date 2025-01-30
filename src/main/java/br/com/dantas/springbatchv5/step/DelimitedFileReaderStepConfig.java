@@ -8,6 +8,7 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -22,6 +23,7 @@ public class DelimitedFileReaderStepConfig {
     }
 
     @Bean
+    @Primary
     public Step delimitedFileReaderStep(ItemReader<Cliente> delimitedItemReader, ItemWriter<Cliente> delimitedItemWriter) {
         return new StepBuilder("delimitedFileReaderStep", jobRepository)
                 .<Cliente,Cliente>chunk(1,transactionManager)

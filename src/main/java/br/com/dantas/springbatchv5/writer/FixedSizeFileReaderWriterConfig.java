@@ -13,7 +13,7 @@ public class FixedSizeFileReaderWriterConfig {
 
     // @StepScope //We use just when our bean need to access jobParameters to get some metadata
     @Bean
-    @Primary
+//    @Primary
     public FlatFileItemWriter<Cliente> fixedSizeFileWriter() {
         return new FlatFileItemWriterBuilder<Cliente>()
                 .name("fixedSizeFileWriter")

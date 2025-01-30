@@ -6,6 +6,7 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.PathResource;
 
 @Configuration
@@ -14,6 +15,7 @@ public class DelimitedFileItemReaderConfig {
     // TODO COME BACK AND SOLVE , PATH DID NOT SOLVED BY ENV VARIABLE AND ANNOTATION @Value("#{jobParameters['arquivoClientes']}") String customersFile
     @StepScope
     @Bean
+    @Primary
     public FlatFileItemReader<Cliente> delimitedFileItemReader() {
         return new FlatFileItemReaderBuilder<Cliente>()
                 .name("delimitedFileItemReader")

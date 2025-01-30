@@ -22,8 +22,8 @@ public class FlatFileReaderJobConfig {
         this.jobRepository = jobRepository;
     }
 
-    @Bean
-    @Primary
+//    @Bean
+//    @Primary
     public Job fixedSizeFileJob(Step fixedSizeFileReaderStep) throws Exception {
         return new JobBuilder("fixedSizeFileReaderJob", jobRepository)
                 .start(fixedSizeFileReaderStep)
@@ -31,7 +31,7 @@ public class FlatFileReaderJobConfig {
                 .build();
     }
 
-//    @Bean
+    @Bean
     public Job delimitedFileJob(Step delimitedFileReaderStep){
         return new JobBuilder("delimitedFileReaderJob", jobRepository)
                 .start(delimitedFileReaderStep)
