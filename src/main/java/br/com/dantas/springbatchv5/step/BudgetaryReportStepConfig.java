@@ -1,8 +1,7 @@
 package br.com.dantas.springbatchv5.step;
 
 import br.com.dantas.springbatchv5.domain.FinancialTransaction;
-import br.com.dantas.springbatchv5.reader.FinancialTransactionMultiFileItemReaderConfig;
-import br.com.dantas.springbatchv5.reader.FinancialTransactionReader;
+import br.com.dantas.springbatchv5.writer.BudgetaryReportFooterCallback;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -26,11 +25,13 @@ public class BudgetaryReportStepConfig {
 
     @Bean
     @Primary
-    public Step budgetaryReportStep(MultiResourceItemReader<FinancialTransaction> itemReader, ItemWriter<FinancialTransaction> itemWriter) {
+    public Step budgetaryReportStep(MultiResourceItemReader<FinancialTransaction> itemReader, ItemWriter<FinancialTransaction> itemWriter,
+                                    BudgetaryReportFooterCallback reportWriterFooterCallback) {
         return new StepBuilder("budgetaryReportStep", jobRepository )
-                .<FinancialTransaction, FinancialTransaction>chunk(20,platformTransactionManager)
+                .<FinancialTransaction, FinancialTransaction>chunk(100,platformTransactionManager)
                 .reader(itemReader)
                 .writer(itemWriter)
+                .listener(reportWriterFooterCallback)
                 .build();
     }
 

@@ -1,0 +1,34 @@
+-------------------------------------------------------------------------------
+--------------------------- BUDGETARY REPORT ----------------------------------
+-------------------------------------------------------------------------------
+ID   NAME   AMOUNT 
+	 DATE   DESCRIPTION   AMOUNT 
+-------------------------------------------------------------------------------
+
+[44905224] EQUIPAMENTO DE PROTEÇÃO SEGURANÇA E SOCORRO - R$ 1.000,00 
+[2020-05-01] Alarme - R$ R$ 1.000,00 
+
+[44905287] MATERIAL DE CONSUMO DE USO DURADOURO - R$ 2.000,00 
+[2020-05-03] Bandeiras - R$ R$ 500,00 
+[2020-05-04] Guarda Sol - R$ R$ 500,00 
+[2020-05-02] Cortina de sala - R$ R$ 1.000,00 
+
+[33903016] MATERIAL DE EXPEDIENTE - R$ 4.000,00 
+[2020-05-10] Cartucho Impressora - R$ R$ 2.000,00 
+[2020-05-01] Resma de Papel A4 - R$ R$ 2.000,00 
+
+[44905218] COLEÇÕES E MATERIAIS BIBLIOGRÁFICOS - R$ 8.000,00 
+[2020-05-11] Livro de Algoritmos - R$ R$ 4.000,00 
+[2020-05-12] Dicionários - R$ R$ 4.000,00 
+
+[33903024] MATERIAL P/ MANUT. DE BENS IMÓVEIS/INSTALAÇÕES - R$ 16.000,00 
+[2020-05-11] Aparelhos Sanitários - R$ R$ 6.000,00 
+[2020-05-12] Cimento - R$ R$ 2.000,00 
+[2020-05-13] Amianto - R$ R$ 8.000,00 
+
+[33903302] PASSAGENS PARA O EXTERIOR - R$ 32.000,00 
+[2020-05-01] Viagem para Las Vegas - R$ R$ 32.000,00 
+
+
+--------------------------- REPORT FOOTER -------------------------------------
+													TOTAL AMOUNT => R$ 0,00 

@@ -3,6 +3,8 @@ package br.com.dantas.springbatchv5.writer;
 import br.com.dantas.springbatchv5.domain.FinancialTransaction;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.file.FlatFileFooterCallback;
+import org.springframework.batch.item.file.FlatFileHeaderCallback;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.batch.item.file.transform.LineAggregator;
@@ -11,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.*;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -20,30 +24,33 @@ import static java.lang.String.format;
 @Configuration
 public class BudgetaryItemWriterConfig {
 
-//    @Bean
-//    public ItemWriter<FinancialTransaction> financialTransactionItemWriter() {
-//        return itens -> itens.forEach(finTransaction -> {
-//            System.out.println("---- Demonstrativo orçamentário ----");
-//
-//            System.out.println(format("[%s] %s - R$ %s", finTransaction.getTransactionTypeId(),
-//                    finTransaction.getTransactionDescription(), finTransaction.getTotalItensAmount()));
-//
-//            finTransaction.getFinancialItems().forEach(item -> {
-//                System.out.println(format("[%s] %s - R$ %s", item.getTransactionDate(),
-//                        item.getTransactionItem(), item.getTransactionAmount()));
-//            });
-//
-//        });
-//    }
-
     @StepScope
     @Bean
-    public FlatFileItemWriter<FinancialTransaction> financialTransactionItemWriter(@Value("#{jobParameters['outputFilePath']}") Resource resourceFile) {
+    public FlatFileItemWriter<FinancialTransaction> financialTransactionItemWriter(@Value("#{jobParameters['outputFilePath']}") Resource resourceFile,
+                                                                                   FlatFileFooterCallback footerCallback) throws IOException {
         return new FlatFileItemWriterBuilder<FinancialTransaction>()
                 .name("financialTransactionItemWriter")
                 .resource((WritableResource) resourceFile)
                 .lineAggregator(lineAggregator())
+                .headerCallback(generateHeaderCallback())
+                .footerCallback(footerCallback)
                 .build();
+    }
+
+    public FlatFileHeaderCallback generateHeaderCallback() {
+        return new FlatFileHeaderCallback() {
+
+            @Override
+            public void writeHeader(Writer writer) throws IOException {
+                writer.append(format("-------------------------------------------------------------------------------%n"));
+                writer.append(format("--------------------------- BUDGETARY REPORT ----------------------------------%n"));
+                writer.append(format("-------------------------------------------------------------------------------%n"));
+                writer.append(format("ID   NAME   AMOUNT %n"));
+                writer.append(format("\t DATE   DESCRIPTION   AMOUNT %n"));
+                writer.append(format("-------------------------------------------------------------------------------%n"));
+
+            }
+        };
     }
 
     public LineAggregator<FinancialTransaction> lineAggregator() {
@@ -71,4 +78,5 @@ public class BudgetaryItemWriterConfig {
             }
         };
     }
+
 }
