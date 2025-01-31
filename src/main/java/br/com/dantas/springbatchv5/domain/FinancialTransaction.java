@@ -49,10 +49,10 @@ public class FinancialTransaction {
         this.tmpItem = tmpItem;
     }
 
-    public String getTotalItensAmount(){
+    public BigDecimal getTotalItensAmount(){
         return this.getFinancialItems().stream()
                 .map(financialItem -> new BigDecimal(financialItem.getTransactionAmount()))
-                .reduce(BigDecimal::add).get().toString();
+                .reduce(BigDecimal::add).get();
     }
 
     @Override
