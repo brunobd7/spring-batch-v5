@@ -23,8 +23,8 @@ public class BudgetaryReportStepConfig {
         this.platformTransactionManager = platformTransactionManager;
     }
 
-    @Bean
-    @Primary
+//    @Bean
+//    @Primary
     public Step budgetaryReportStep(MultiResourceItemReader<FinancialTransaction> itemReader, ItemWriter<FinancialTransaction> itemWriter,
                                     BudgetaryReportFooterCallback reportWriterFooterCallback) {
         return new StepBuilder("budgetaryReportStep", jobRepository )

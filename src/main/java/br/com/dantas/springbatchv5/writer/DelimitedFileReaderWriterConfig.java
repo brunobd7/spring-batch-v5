@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.PathResource;
 
-@Configuration
+//@Configuration
 public class DelimitedFileReaderWriterConfig {
 
-    @Bean
+//    @Bean
 //    @Primary
     public FlatFileItemWriter<Cliente> delimitedFileReaderWriter() {
         return new FlatFileItemWriterBuilder<Cliente>()

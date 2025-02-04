@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Primary;
 /**
  * The annotation @EnableBatchProcessing is not required since Spring Boot 3
  */
-@Configuration
+//@Configuration
 public class FlatFileReaderJobConfig {
 
     private final JobRepository jobRepository;
@@ -39,7 +39,7 @@ public class FlatFileReaderJobConfig {
                 .build();
     }
 
-    @Bean
+//    @Bean
     public Job multiFileReaderJob(Step multiFileReaderStep){
         return new JobBuilder("multiFileReaderJob", jobRepository)
                 .start(multiFileReaderStep)

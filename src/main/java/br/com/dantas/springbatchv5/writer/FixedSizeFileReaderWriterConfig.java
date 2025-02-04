@@ -5,14 +5,13 @@ import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.PathResource;
 
-@Configuration
+//@Configuration
 public class FixedSizeFileReaderWriterConfig {
 
     // @StepScope //We use just when our bean need to access jobParameters to get some metadata
-    @Bean
+//    @Bean
 //    @Primary
     public FlatFileItemWriter<Cliente> fixedSizeFileWriter() {
         return new FlatFileItemWriterBuilder<Cliente>()
