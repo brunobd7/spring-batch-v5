@@ -11,8 +11,6 @@ public class ContaInvalidaItemProcessor implements ItemProcessor<Cliente, ContaB
     public ContaBancaria process(Cliente clienteSobProcessamento) throws Exception {
        ContaBancaria conta = new ContaBancaria();
 		conta.setClienteId(clienteSobProcessamento.getEmail());
-		conta.setTipoConta(TipoConta.INVALIDA);
-		conta.setLimite(0.0);
 		return conta;
     }
 }

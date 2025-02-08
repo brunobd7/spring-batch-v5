@@ -10,7 +10,7 @@ CREATE TABLE cliente (
 
 DROP TABLE IF EXISTS conta;
 
-CREATE TYPE categoria_conta as ENUM ('PRATA','OURO','PLATINA','DIAMANTE');
+CREATE TYPE categoria_conta as ENUM ('PRATA','OURO','PLATINA','DIAMANTE','INVALIDA');
 
 CREATE table conta (
 	id bigint ,
