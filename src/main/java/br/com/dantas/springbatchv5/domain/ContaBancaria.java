@@ -1,5 +1,8 @@
 package br.com.dantas.springbatchv5.domain;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class ContaBancaria {
 
     private Integer id;
@@ -44,7 +47,7 @@ public class ContaBancaria {
         return "ContaBancaria{" +
                 "id=" + id +
                 ", tipoConta=" + tipoConta +
-                ", limite=" + limite +
+                ", limite=" + NumberFormat.getCurrencyInstance(Locale.forLanguageTag("ptBR")).format(limite) +
                 ", clienteId='" + clienteId + '\'' +
                 '}';
     }

@@ -8,23 +8,20 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * The annotation @EnableBatchProcessing is not required since Spring Boot 3
- */
 @Configuration
-public class GenerateAccountsProcessorJobConfig {
+public class ContasBancariasJobConfig {
 
     private final JobRepository jobRepository;
 
-    public GenerateAccountsProcessorJobConfig(JobRepository jobRepository) {
+    public ContasBancariasJobConfig(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
     }
 
     @Bean
-    public Job job(Step generateAccountsStep) {
-        return new JobBuilder("generateAccountsJob", jobRepository)
-                .start(generateAccountsStep)
-                .incrementer(new RunIdIncrementer()) // INCREMENTED TO ALLOWS BATCH RUNS MANY TIMES AND COULD INDENTIFY ON DATABASE
+    public Job contasBancariasJob(Step contaBancariaStep) {
+        return new JobBuilder("contaBancariaJob", jobRepository)
+                .start(contaBancariaStep)
+                .incrementer(new RunIdIncrementer())
                 .build();
     }
 
