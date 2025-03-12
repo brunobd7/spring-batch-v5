@@ -8,24 +8,22 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * The annotation @EnableBatchProcessing is not required since Spring Boot 3
- */
 @Configuration
-public class PrintSomethingJobConfig {
+public class DataMigrationJobConfig {
 
     private final JobRepository jobRepository;
 
-    public PrintSomethingJobConfig(JobRepository jobRepository) {
+    public DataMigrationJobConfig(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
     }
 
     @Bean
-    public Job job(Step myStep) {
-        return new JobBuilder("myJob", jobRepository)
-                .start(myStep)
-                .incrementer(new RunIdIncrementer()) // INCREMENTED TO ALLOWS BATCH RUNS MANY TIMES AND COULD INDENTIFY ON DATABASE
+    public Job dataMigrationJob(Step migratePessoaStep,
+                                Step migrateDadosBancario) {
+        return new JobBuilder("dataMigrationJob", jobRepository)
+                .start(migratePessoaStep)
+                .next(migrateDadosBancario)
+                .incrementer(new RunIdIncrementer())
                 .build();
     }
-
 }
