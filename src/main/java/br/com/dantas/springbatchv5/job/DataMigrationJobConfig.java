@@ -5,6 +5,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,8 +19,8 @@ public class DataMigrationJobConfig {
     }
 
     @Bean
-    public Job dataMigrationJob(Step migratePessoaStep,
-                                Step migrateDadosBancario) {
+    public Job dataMigrationJob(@Qualifier(value = "migraDadosPessoaStep") Step migratePessoaStep,
+                                @Qualifier(value = "migraDadosBancariosStep") Step migrateDadosBancario) {
         return new JobBuilder("dataMigrationJob", jobRepository)
                 .start(migratePessoaStep)
                 .next(migrateDadosBancario)

@@ -6,6 +6,7 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -22,7 +23,8 @@ public class MigraPessoaStepConfig {
     }
 
     @Bean
-    public Step migraDadosPessoaStep(ItemReader<Pessoa> reader, ItemWriter<Pessoa> writer){
+    public Step migraDadosPessoaStep(@Qualifier(value = "arquivoPessoaFlatFileItemReader") ItemReader<Pessoa> reader,
+                                     @Qualifier(value = "pessoaJdbcItemWriter") ItemWriter<Pessoa> writer){
         return new StepBuilder("migraDadosPessoaStep",jobRepository)
                 .<Pessoa,Pessoa>chunk(1, platformTransactionManager)
                 .reader(reader)
