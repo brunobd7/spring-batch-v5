@@ -1,6 +1,7 @@
 package br.com.dantas.springbatchv5.domain;
 
-import java.time.LocalDate;
+import org.springframework.util.StringUtils;
+
 import java.time.LocalDateTime;
 
 public class Pessoa {
@@ -60,4 +61,9 @@ public class Pessoa {
     public void setIdade(Integer idade) {
         this.idade = idade;
     }
+
+    public boolean isValid() {
+        return StringUtils.hasText(this.getNome()) && StringUtils.hasText(this.getEmail()) && this.getDataNascimento() != null;
+    }
+
 }

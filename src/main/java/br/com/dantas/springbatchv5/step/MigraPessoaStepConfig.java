@@ -5,7 +5,8 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.file.FlatFileItemWriter;
+import org.springframework.batch.item.support.ClassifierCompositeItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,12 +24,14 @@ public class MigraPessoaStepConfig {
     }
 
     @Bean
-    public Step migraDadosPessoaStep(@Qualifier(value = "arquivoPessoaFlatFileItemReader") ItemReader<Pessoa> reader,
-                                     @Qualifier(value = "pessoaJdbcItemWriter") ItemWriter<Pessoa> writer){
+    public Step migraDadosPessoaStep(@Qualifier(value = "arquivoPessoaFlatFileItemReader") ItemReader<Pessoa> arquivoPessoaItemReader,
+                                     @Qualifier(value = "pessoaClassifierWriter") ClassifierCompositeItemWriter<Pessoa> pessoaClassifierCompositeItemWriter,
+                                     @Qualifier(value = "pessoaInvalidaFlatFileItemWriter") FlatFileItemWriter<Pessoa>  pessoaInvalidaWriter) {
         return new StepBuilder("migraDadosPessoaStep",jobRepository)
                 .<Pessoa,Pessoa>chunk(1, platformTransactionManager)
-                .reader(reader)
-                .writer(writer)
+                .reader(arquivoPessoaItemReader)
+                .writer(pessoaClassifierCompositeItemWriter)
+                .stream(pessoaInvalidaWriter) // Must be included because the classifier do not implement ItemStream interface to control I/O around the resources.
                 .build();
     }
 }
