@@ -16,13 +16,8 @@ public class DadosBancariosJdbcItemWriterConfig {
     public JdbcBatchItemWriter<DadosBancarios> dadosBancariosJdbcItemWriter(@Qualifier(value = "appDataSource") DataSource appDataSource) {
         return new JdbcBatchItemWriterBuilder<DadosBancarios>()
                 .dataSource(appDataSource)
-                .sql("INSERT INTO dados_bancarios VALUES (?,?,?,?)")
-                .itemPreparedStatementSetter((entityDadoBancario, ps) -> {
-                   ps.setInt(1,entityDadoBancario.getPessoaId());
-                   ps.setInt(2,entityDadoBancario.getAgencia());
-                   ps.setInt(3,entityDadoBancario.getConta());
-                   ps.setInt(4,entityDadoBancario.getBanco());
-                })
+                .sql("INSERT INTO dados_bancarios (pessoa_id,agencia,conta,banco) VALUES (:pessoaId, :agencia, :conta, :banco)")
+                .beanMapped()
                 .build();
 
     }

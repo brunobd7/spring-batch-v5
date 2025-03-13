@@ -17,11 +17,11 @@ public class PessoaJdbcItemWriterConfig {
     public JdbcBatchItemWriter<Pessoa> pessoaJdbcItemWriter(@Qualifier("appDataSource") DataSource appDataSource) {
         return new JdbcBatchItemWriterBuilder<Pessoa>()
                 .dataSource(appDataSource)
-                .sql("INSERT INTO pessoa VALUES (?,?,?,?,?)")
+                .sql("INSERT INTO pessoa (nome,email,data_nascimento,idade) VALUES  (?,?,?,?)")
                 .itemPreparedStatementSetter((entityPessoa, ps) -> {
                     ps.setString(1,  entityPessoa.getNome());
                     ps.setString(2, entityPessoa.getEmail());
-                    ps.setTimestamp(3, Timestamp.valueOf(entityPessoa.getDataNascimento().atStartOfDay()));
+                    ps.setTimestamp(3, Timestamp.valueOf(entityPessoa.getDataNascimento()));
                     ps.setInt(4, entityPessoa.getIdade());
                 })
                 .build();

@@ -14,7 +14,7 @@ public class ArquivoDadosBancariosFlatFileItemReaderConfig {
     public FlatFileItemReader<DadosBancarios> arquivoDadosBancariosFlatFileItemReader() {
         return  new FlatFileItemReaderBuilder<DadosBancarios>()
                 .name("arquivoDadosBancariosFlatFileItemReader")
-                .resource(new FileSystemResource("/files/dados_bancarios.csv"))
+                .resource(new FileSystemResource("C:\\Users\\Bruno\\IdeaProjects\\spring-batch-v5\\files\\dados_bancarios.csv"))
                 .delimited()
                 .names("pessoa_id","agencia","conta","banco","id")
                 .addComment("--")

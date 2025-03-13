@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class ArquivoPessoaFlatFileItemReaderConfig {
@@ -16,7 +17,7 @@ public class ArquivoPessoaFlatFileItemReaderConfig {
     public FlatFileItemReader<Pessoa> arquivoPessoaFlatFileItemReader() {
         return new FlatFileItemReaderBuilder<Pessoa>()
                 .name("arquivoPessoaFlatFileItemReader")
-                .resource( new FileSystemResource("/files/pessoas.csv"))
+                .resource( new FileSystemResource("C:\\Users\\Bruno\\IdeaProjects\\spring-batch-v5\\files\\pessoas.csv"))
                 .delimited()
                 .names("nome","email", "data_nascimento","idade","id")
                 .addComment("--") // PATTERN OF COMMENTED LINES ON FILE
@@ -24,7 +25,10 @@ public class ArquivoPessoaFlatFileItemReaderConfig {
                     Pessoa pessoa = new Pessoa();
                     pessoa.setNome(fieldSet.readString("nome"));
                     pessoa.setEmail(fieldSet.readString("email"));
-                    pessoa.setDataNascimento(LocalDate.from(fieldSet.readDate("data_nascimento").toInstant()));
+                    pessoa.setDataNascimento(
+                            LocalDateTime.parse(fieldSet.readString("data_nascimento"),
+                                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    );
                     pessoa.setIdade(fieldSet.readInt("idade"));
                     return pessoa;
                 })

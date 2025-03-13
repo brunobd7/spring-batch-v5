@@ -1,18 +1,19 @@
 package br.com.dantas.springbatchv5.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Pessoa {
 
     private Integer id;
     private String nome;
     private String email;
-    private LocalDate dataNascimento;
+    private LocalDateTime dataNascimento;
     private Integer idade;
 
     public Pessoa() {}
 
-    public Pessoa(Integer id, String nome, String email, LocalDate dataNascimento, Integer idade) {
+    public Pessoa(Integer id, String nome, String email, LocalDateTime dataNascimento, Integer idade) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -44,11 +45,11 @@ public class Pessoa {
         this.email = email;
     }
 
-    public LocalDate getDataNascimento() {
+    public LocalDateTime getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
+    public void setDataNascimento(LocalDateTime dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
