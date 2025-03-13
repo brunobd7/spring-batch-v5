@@ -26,7 +26,7 @@ public class MigraDadosBancariosStepConfig {
     public Step migraDadosBancariosStep(@Qualifier(value = "arquivoDadosBancariosFlatFileItemReader") ItemReader<DadosBancarios> dadosBancariosItemReader,
                                         @Qualifier(value = "dadosBancariosJdbcItemWriter") ItemWriter<DadosBancarios> dadosBancariosItemWriter){
         return new StepBuilder("migraDadosBancariosStep",jobRepository)
-                .<DadosBancarios,DadosBancarios>chunk(1,platformTransactionManager)
+                .<DadosBancarios,DadosBancarios>chunk(10000,platformTransactionManager)
                 .reader(dadosBancariosItemReader)
                 .writer(dadosBancariosItemWriter)
                 .build();

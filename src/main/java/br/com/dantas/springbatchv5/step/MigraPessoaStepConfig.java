@@ -28,7 +28,7 @@ public class MigraPessoaStepConfig {
                                      @Qualifier(value = "pessoaClassifierWriter") ClassifierCompositeItemWriter<Pessoa> pessoaClassifierCompositeItemWriter,
                                      @Qualifier(value = "pessoaInvalidaFlatFileItemWriter") FlatFileItemWriter<Pessoa>  pessoaInvalidaWriter) {
         return new StepBuilder("migraDadosPessoaStep",jobRepository)
-                .<Pessoa,Pessoa>chunk(1, platformTransactionManager)
+                .<Pessoa,Pessoa>chunk(10000, platformTransactionManager)
                 .reader(arquivoPessoaItemReader)
                 .writer(pessoaClassifierCompositeItemWriter)
                 .stream(pessoaInvalidaWriter) // Must be included because the classifier do not implement ItemStream interface to control I/O around the resources.
