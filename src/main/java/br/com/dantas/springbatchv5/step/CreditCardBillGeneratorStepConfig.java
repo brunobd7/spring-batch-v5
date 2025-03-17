@@ -1,11 +1,14 @@
 package br.com.dantas.springbatchv5.step;
 
 import br.com.dantas.springbatchv5.domain.FaturaCartaoCredito;
+import br.com.dantas.springbatchv5.domain.Transacao;
+import br.com.dantas.springbatchv5.reader.FaturaCartaoCreditoReader;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,12 +26,12 @@ public class CreditCardBillGeneratorStepConfig {
     }
 
     @Bean
-    public Step creditCardBillGeneratorStep(ItemReader<FaturaCartaoCredito> transacoesReader,
+    public Step creditCardBillGeneratorStep(ItemStreamReader<Transacao> transacoesReader,
                                             ItemProcessor<FaturaCartaoCredito> carregarDadosClienteProcessor,
                                             ItemWriter<FaturaCartaoCredito> gerarFaturaCartaoCreditoWriter) {
         return new StepBuilder("creditCardBillGeneratorStep", jobRepository)
                 .<FaturaCartaoCredito,FaturaCartaoCredito>chunk(1, platformTransactionManager)
-                .reader(transacoesReader)
+                .reader(new FaturaCartaoCreditoReader(transacoesReader))
                 .processor(carregarDadosClienteProcessor)
                 .writer(gerarFaturaCartaoCreditoWriter)
                 .build();
