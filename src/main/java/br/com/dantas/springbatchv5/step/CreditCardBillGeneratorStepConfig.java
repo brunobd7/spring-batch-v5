@@ -26,7 +26,7 @@ public class CreditCardBillGeneratorStepConfig {
 
     @Bean
     public Step creditCardBillGeneratorStep(ItemStreamReader<Transacao> transacoesReader,
-                                            ItemProcessor<FaturaCartaoCredito> carregarDadosClienteProcessor,
+                                            ItemProcessor<FaturaCartaoCredito,FaturaCartaoCredito> carregarDadosClienteProcessor,
                                             ItemWriter<FaturaCartaoCredito> gerarFaturaCartaoCreditoWriter) {
         return new StepBuilder("creditCardBillGeneratorStep", jobRepository)
                 .<FaturaCartaoCredito,FaturaCartaoCredito>chunk(1, platformTransactionManager)

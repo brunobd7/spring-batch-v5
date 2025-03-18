@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+//TODO REFACTOR USING "Validator" from spring.batch.core instead just implement this interface;
 @Component
 public class ConsultaDadosClienteItemProcessor implements ItemProcessor<FaturaCartaoCredito,FaturaCartaoCredito> {
 
@@ -21,4 +22,5 @@ public class ConsultaDadosClienteItemProcessor implements ItemProcessor<FaturaCa
         faturaCartaoCredito.setCliente(response.getBody());
         return faturaCartaoCredito;
     }
+
 }
