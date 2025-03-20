@@ -27,11 +27,9 @@ public class FaturaCartaoCreditoReader implements ItemStreamReader<FaturaCartaoC
         transacaoAtual = null;
 
         if(transacao!=null){
-           faturaCartaoCredito = FaturaCartaoCredito
-                   .builder()
-                   .cartaoCredito(transacao.getCartaoCredito())
-                   .cliente(transacao.getCartaoCredito().getCliente())
-                   .build();
+           faturaCartaoCredito = new FaturaCartaoCredito();
+           faturaCartaoCredito.setCartaoCredito(transacao.getCartaoCredito());
+           faturaCartaoCredito.setCliente(transacao.getCartaoCredito().getCliente());
 
            faturaCartaoCredito.getTransacoes().add(transacao);
 

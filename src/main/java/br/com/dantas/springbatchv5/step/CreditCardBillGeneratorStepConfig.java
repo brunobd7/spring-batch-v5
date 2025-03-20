@@ -9,6 +9,7 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.file.FlatFileFooterCallback;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -27,12 +28,14 @@ public class CreditCardBillGeneratorStepConfig {
     @Bean
     public Step creditCardBillGeneratorStep(ItemStreamReader<Transacao> transacoesReader,
                                             ItemProcessor<FaturaCartaoCredito,FaturaCartaoCredito> carregarDadosClienteProcessor,
-                                            ItemWriter<FaturaCartaoCredito> gerarFaturaCartaoCreditoWriter) {
+                                            ItemWriter<FaturaCartaoCredito> gerarFaturaCartaoCreditoWriter,
+                                            FlatFileFooterCallback totalFaturaFooterCallback) {
         return new StepBuilder("creditCardBillGeneratorStep", jobRepository)
                 .<FaturaCartaoCredito,FaturaCartaoCredito>chunk(1, platformTransactionManager)
                 .reader(new FaturaCartaoCreditoReader(transacoesReader))
                 .processor(carregarDadosClienteProcessor)
                 .writer(gerarFaturaCartaoCreditoWriter)
+                .listener(totalFaturaFooterCallback)
                 .build();
     }
 }

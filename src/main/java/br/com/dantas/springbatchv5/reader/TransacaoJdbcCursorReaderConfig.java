@@ -5,24 +5,26 @@ import br.com.dantas.springbatchv5.domain.Cliente;
 import br.com.dantas.springbatchv5.domain.Transacao;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 @Configuration
 public class TransacaoJdbcCursorReaderConfig {
 
     @Bean
-    public JdbcCursorItemReader<Transacao>  transacaoJdbcCursorItemReader() {
+    public JdbcCursorItemReader<Transacao>  transacaoJdbcCursorItemReader(@Qualifier(value = "appDataSource") DataSource appDataSource) {
         return new JdbcCursorItemReaderBuilder<Transacao>()
                 .name("transacaoJdbcCursorItemReader")
+                .dataSource(appDataSource)
                 .sql("""
-                        select * from transacao 
+                        select * from transacao
                         join cartao_credito cc on transacao.numero_cartao_credito = cc.numero_cartao_credito
-                        order by cc.numero_cartao_credito 
+                        order by cc.numero_cartao_credito
                         
                         """)
                 .rowMapper((rs, rowNum) -> {
@@ -34,7 +36,7 @@ public class TransacaoJdbcCursorReaderConfig {
 
                     Cliente cliente = Cliente
                             .builder()
-                            .id(rs.getInt("id"))
+                            .id(rs.getInt("cliente"))
                             .build();
 
                     cartaoCredito.setCliente(cliente);
@@ -44,7 +46,7 @@ public class TransacaoJdbcCursorReaderConfig {
                     transacao.setDescricao(rs.getString("descricao"));
                     transacao.setValor(rs.getBigDecimal("valor"));
                     transacao.setData(
-                            LocalDate.parse(rs.getString("data"), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                            LocalDate.parse(rs.getString("data"), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                     );
                     transacao.setCartaoCredito(cartaoCredito);
 
