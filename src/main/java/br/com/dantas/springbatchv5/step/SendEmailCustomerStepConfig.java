@@ -28,7 +28,7 @@ public class SendEmailCustomerStepConfig {
                                       ItemProcessor<InteresseClienteProduto, SimpleMailMessage> processaEmailClienteProdutoProcessor,
                                       ItemWriter<SimpleMailMessage> enviarEmailClienteProdutoWriter) {
         return new StepBuilder("sendEmailCustomerStep", jobRepository)
-                .chunk(1, platformTransactionManager)
+                .<InteresseClienteProduto,SimpleMailMessage>chunk(1, platformTransactionManager)
                 .reader(interesseClienteProdutoReader)
                 .processor(processaEmailClienteProdutoProcessor)
                 .writer(enviarEmailClienteProdutoWriter)
